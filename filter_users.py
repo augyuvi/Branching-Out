@@ -1,4 +1,4 @@
-"""Filter users CLI tool (step 3: name + age)."""
+"""Filter users CLI tool (step 4: name + age + email)."""
 
 import json
 
@@ -21,9 +21,18 @@ def filter_users_by_age(age):
     return [u for u in users if u["age"] == age]
 
 
+def filter_users_by_email(email):
+    """Return users matching email (case-insensitive)."""
+    users = load_users()
+    return [u for u in users if u["email"].lower() == email.lower()]
+
+
 def main():
-    """Ask user for filter option and print results (name or age)."""
-    option = input("Filter by (name/age): ").strip().lower()
+    """
+    Ask user for filter option and print results.
+    Supports: name / age / email.
+    """
+    option = input("Filter by (name/age/email): ").strip().lower()
 
     if option == "name":
         name_to_search = input("Enter a name to filter users: ").strip()
@@ -36,6 +45,10 @@ def main():
             print("Please enter a valid number for age.")
             return
         results = filter_users_by_age(age_to_search)
+
+    elif option == "email":
+        email_to_search = input("Enter an email to filter users: ").strip()
+        results = filter_users_by_email(email_to_search)
 
     else:
         print("Filtering by that option is not yet supported.")
